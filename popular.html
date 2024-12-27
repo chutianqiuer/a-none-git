@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>精美壁纸 - 热门</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .page-header {
+            text-align: center;
+            padding: 100px 20px 20px;
+            color: var(--text-color);
+        }
+
+        .time-filter {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .time-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            background-color: white;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .time-btn:hover,
+        .time-btn.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .popularity-info {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.7);
+            padding: 5px 10px;
+            border-radius: 15px;
+            color: white;
+            font-size: 0.9em;
+            z-index: 2;
+        }
+
+        .popularity-info i {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <ul class="nav-links">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="categories.html">分类</a></li>
+            <li><a href="latest.html">最新</a></li>
+            <li><a href="popular.html">热门</a></li>
+            <li><a href="about.html">关于</a></li>
+        </ul>
+    </nav>
+
+    <div class="page-header">
+        <h1>热门壁纸</h1>
+        <p>最受欢迎的精选壁纸</p>
+    </div>
+
+    <div class="time-filter">
+        <button class="time-btn active" data-time="day">今日热门</button>
+        <button class="time-btn" data-time="week">本周热门</button>
+        <button class="time-btn" data-time="month">本月热门</button>
+        <button class="time-btn" data-time="all">历史热门</button>
+    </div>
+
+    <div class="grid-container">
+        <!-- 图片卡片将通过JavaScript动态生成 -->
+    </div>
+
+    <footer>
+        <p>&copy; 2023 精美壁纸. 保留所有权利.</p>
+    </footer>
+
+    <script>
+        // 模拟热门图片数据
+        const popularImages = {
+            day: [
+                {
+                    url: 'https://picsum.photos/500/500?random=15',
+                    title: '星空璀璨',
+                    description: '银河系的壮丽景色',
+                    date: '2023-12-27',
+                    downloads: 1200,
+                    likes: 850
+                },
+                {
+                    url: 'https://picsum.photos/500/500?random=16',
+                    title: '城市地标',
+                    description: '现代都市的象征',
+                    date: '2023-12-27',
+                    downloads: 980,
+                    likes: 720
+                }
+            ],
+            week: [
+                {
+                    url: 'https://picsum.photos/500/500?random=17',
+                    title: '森林晨雾',
+                    description: '雾气缭绕的神秘森林',
+                    date: '2023-12-25',
+                    downloads: 5600,
+                    likes: 4200
+                },
+                {
+                    url: 'https://picsum.photos/500/500?random=18',
+                    title: '极光之夜',
+                    description: '北极光的绚丽舞动',
+                    date: '2023-12-24',
+                    downloads: 4800,
+                    likes: 3600
+                }
+            ],
+            month: [
+                {
+                    url: 'https://picsum.photos/500/500?random=19',
+                    title: '沙漠落日',
+                    description: '金色沙漠的壮美景色',
+                    date: '2023-12-15',
+                    downloads: 15000,
+                    likes: 12000
+                },
+                {
+                    url: 'https://picsum.photos/500/500?random=20',
+                    title: '雪山日出',
+                    description: '雪山之巅的晨光',
+                    date: '2023-12-10',
+                    downloads: 12500,
+                    likes: 9800
+                }
+            ],
+            all: [
+                {
+                    url: 'https://picsum.photos/500/500?random=21',
+                    title: '海底世界',
+                    description: '神秘的深海生态',
+                    date: '2023-11-30',
+                    downloads: 45000,
+                    likes: 38000
+                },
+                {
+                    url: 'https://picsum.photos/500/500?random=22',
+                    title: '花海盛景',
+                    description: '五彩缤纷的花海',
+                    date: '2023-11-25',
+                    downloads: 42000,
+                    likes: 35000
+                }
+            ]
+        };
+
+        // 生成���片卡片
+        function createPopularCards(timeFrame) {
+            const container = document.querySelector('.grid-container');
+            container.innerHTML = ''; // 清空容器
+            
+            const images = popularImages[timeFrame];
+            images.forEach(imageData => {
+                const card = document.createElement('div');
+                card.className = 'image-card';
+                
+                card.innerHTML = `
+                    <div class="popularity-info">
+                        <i>❤️</i>${imageData.likes} <i>⬇️</i>${imageData.downloads}
+                    </div>
+                    <img src="${imageData.url}" alt="${imageData.title}">
+                    <div class="image-overlay">
+                        <h3>${imageData.title}</h3>
+                        <p>${imageData.description}</p>
+                        <small>${imageData.date}</small>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+
+        // 添加时间筛选按钮点击事件
+        document.querySelectorAll('.time-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                // 更新按钮状态
+                document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                
+                // 更新图片显示
+                const timeFrame = e.target.dataset.time;
+                createPopularCards(timeFrame);
+            });
+        });
+
+        // 页面加载时显示今日热门
+        document.addEventListener('DOMContentLoaded', () => createPopularCards('day'));
+    </script>
+</body>
+</html> 

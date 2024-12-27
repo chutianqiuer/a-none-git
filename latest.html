@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>精美壁纸 - 最新</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .page-header {
+            text-align: center;
+            padding: 100px 20px 20px;
+            color: var(--text-color);
+        }
+
+        .load-more {
+            display: block;
+            margin: 2rem auto;
+            padding: 1rem 2rem;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .load-more:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <ul class="nav-links">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="categories.html">分类</a></li>
+            <li><a href="latest.html">最新</a></li>
+            <li><a href="popular.html">热门</a></li>
+            <li><a href="about.html">关于</a></li>
+        </ul>
+    </nav>
+
+    <div class="page-header">
+        <h1>最新壁纸</h1>
+        <p>每日更新，保持新鲜</p>
+    </div>
+
+    <div class="grid-container">
+        <!-- 图片卡片将通过JavaScript动态生成 -->
+    </div>
+
+    <button class="load-more">加载更多</button>
+
+    <footer>
+        <p>&copy; 2023 精美壁纸. 保留所有权利.</p>
+    </footer>
+
+    <script>
+        // 模拟最新图片数据
+        const latestImages = [
+            {
+                url: 'https://picsum.photos/500/500?random=9',
+                title: '晨光初现',
+                description: '清晨的第一缕阳光',
+                date: '2023-12-27 08:30'
+            },
+            {
+                url: 'https://picsum.photos/500/500?random=10',
+                title: '都市夜景',
+                description: '霓虹闪烁的城市夜晚',
+                date: '2023-12-27 02:15'
+            },
+            {
+                url: 'https://picsum.photos/500/500?random=11',
+                title: '海滩日落',
+                description: '金色的落日余晖',
+                date: '2023-12-26 18:45'
+            },
+            {
+                url: 'https://picsum.photos/500/500?random=12',
+                title: '雨后彩虹',
+                description: '雨后天空的七彩奇迹',
+                date: '2023-12-26 16:20'
+            },
+            {
+                url: 'https://picsum.photos/500/500?random=13',
+                title: '雪山之巅',
+                description: '白雪皑皑的山峰',
+                date: '2023-12-26 12:00'
+            },
+            {
+                url: 'https://picsum.photos/500/500?random=14',
+                title: '花海绽放',
+                description: '春天的花海盛景',
+                date: '2023-12-26 10:30'
+            }
+        ];
+
+        let currentPage = 1;
+        const imagesPerPage = 6;
+
+        // 生成图片卡片
+        function createLatestCards(page) {
+            const container = document.querySelector('.grid-container');
+            const startIndex = (page - 1) * imagesPerPage;
+            const endIndex = startIndex + imagesPerPage;
+            const pageImages = latestImages.slice(startIndex, endIndex);
+
+            pageImages.forEach(imageData => {
+                const card = document.createElement('div');
+                card.className = 'image-card';
+                
+                card.innerHTML = `
+                    <img src="${imageData.url}" alt="${imageData.title}">
+                    <div class="image-overlay">
+                        <h3>${imageData.title}</h3>
+                        <p>${imageData.description}</p>
+                        <small>${imageData.date}</small>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+
+            // 如果没有更多图片，隐藏加载更多按钮
+            if (endIndex >= latestImages.length) {
+                document.querySelector('.load-more').style.display = 'none';
+            }
+        }
+
+        // 加载更多按钮点击事件
+        document.querySelector('.load-more').addEventListener('click', () => {
+            currentPage++;
+            createLatestCards(currentPage);
+        });
+
+        // 页面加载时显示第一页图片
+        document.addEventListener('DOMContentLoaded', () => createLatestCards(currentPage));
+    </script>
+</body>
+</html> 

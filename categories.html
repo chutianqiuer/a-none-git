@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>精美壁纸 - 分类</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .category-filter {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            padding: 100px 20px 20px;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            background-color: white;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .category-btn:hover,
+        .category-btn.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <ul class="nav-links">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="categories.html">分类</a></li>
+            <li><a href="latest.html">最新</a></li>
+            <li><a href="popular.html">热门</a></li>
+            <li><a href="about.html">关于</a></li>
+        </ul>
+    </nav>
+
+    <div class="category-filter">
+        <button class="category-btn active" data-category="all">全部</button>
+        <button class="category-btn" data-category="nature">自然风光</button>
+        <button class="category-btn" data-category="city">城市风景</button>
+        <button class="category-btn" data-category="abstract">抽象艺术</button>
+        <button class="category-btn" data-category="animal">动物世界</button>
+    </div>
+
+    <div class="grid-container">
+        <!-- 图片卡片将通过JavaScript动态生成 -->
+    </div>
+
+    <footer>
+        <p>&copy; 2023 精美壁纸. 保留所有权利.</p>
+    </footer>
+
+    <script>
+        // 模拟分类图片数据
+        const categoryImages = {
+            nature: [
+                {
+                    url: 'https://picsum.photos/500/500?random=3',
+                    title: '山川秀丽',
+                    description: '雄伟的山脉风光',
+                    date: '2023-12-27',
+                    category: 'nature'
+                },
+                {
+                    url: 'https://picsum.photos/500/500?random=4',
+                    title: '海洋之美',
+                    description: '蔚蓝的海洋风景',
+                    date: '2023-12-26',
+                    category: 'nature'
+                }
+            ],
+            city: [
+                {
+                    url: 'https://picsum.photos/500/500?random=5',
+                    title: '都市夜景',
+                    description: '繁华的城市夜色',
+                    date: '2023-12-25',
+                    category: 'city'
+                },
+                {
+                    url: 'https://picsum.photos/500/500?random=6',
+                    title: '建筑艺术',
+                    description: '现代建筑之美',
+                    date: '2023-12-24',
+                    category: 'city'
+                }
+            ],
+            abstract: [
+                {
+                    url: 'https://picsum.photos/500/500?random=7',
+                    title: '色彩之舞',
+                    description: '抽象艺术作品',
+                    date: '2023-12-23',
+                    category: 'abstract'
+                }
+            ],
+            animal: [
+                {
+                    url: 'https://picsum.photos/500/500?random=8',
+                    title: '野生动物',
+                    description: '自然界的精灵',
+                    date: '2023-12-22',
+                    category: 'animal'
+                }
+            ]
+        };
+
+        // 生成图片卡片
+        function createCategoryCards(category = 'all') {
+            const container = document.querySelector('.grid-container');
+            container.innerHTML = ''; // 清空容器
+            
+            let images = [];
+            if (category === 'all') {
+                // 合并所有分类的图片
+                Object.values(categoryImages).forEach(categoryArr => {
+                    images = images.concat(categoryArr);
+                });
+            } else {
+                images = categoryImages[category] || [];
+            }
+
+            images.forEach(imageData => {
+                const card = document.createElement('div');
+                card.className = 'image-card';
+                
+                card.innerHTML = `
+                    <img src="${imageData.url}" alt="${imageData.title}">
+                    <div class="image-overlay">
+                        <h3>${imageData.title}</h3>
+                        <p>${imageData.description}</p>
+                        <small>${imageData.date}</small>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+
+        // 添加分类按钮点击事件
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                // 更新按钮状态
+                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                
+                // 更新图片显示
+                const category = e.target.dataset.category;
+                createCategoryCards(category);
+            });
+        });
+
+        // 页面加载时显示所有图片
+        document.addEventListener('DOMContentLoaded', () => createCategoryCards());
+    </script>
+</body>
+</html> 
